@@ -58,24 +58,24 @@ export class GoogleAuthenticationService implements OnModuleInit {
       throw new Error('Missing required user information from Google');
     }
 
-    //check if user with the email exists in our database but without googleId
-    const existingUser = await this.usersService.findOneByEmail(email);
-    if (existingUser && !existingUser.googleId) {
-      //link googleId to existing user
-      existingUser.googleId = googleId;
-      //update user record
-      await this.usersService.updateUser(existingUser.id, existingUser);
-      const { accessToken, refreshToken } =
-        await this.generateTokensProvider.generateTokens(existingUser);
-      return { accessToken, refreshToken, user: existingUser };
-    }
-
     const newUser = await this.usersService.createGoogleUser({
       email,
       firstName,
       lastName,
       googleId,
     });
+
+    //check if user with the email exists in our database but without googleId, only check when the database already has users
+    // const existingUser = await this.usersService.findOneByEmail(email);
+    // if (existingUser && !existingUser.googleId) {
+    //   //link googleId to existing user
+    //   existingUser.googleId = googleId;
+    //   //update user record
+    //   await this.usersService.updateUser(existingUser.id, existingUser);
+    //   const { accessToken, refreshToken } =
+    //     await this.generateTokensProvider.generateTokens(existingUser);
+    //   return { accessToken, refreshToken, user: existingUser };
+    // }
 
     const { accessToken, refreshToken } =
       await this.generateTokensProvider.generateTokens(newUser);

@@ -3,25 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from '@/modules/auth/auth.module';
-import { MetaOptionsModule } from '@/modules/meta-options/meta-options.module';
-import { PostsModule } from '@/modules/posts/posts.module';
-import { TagsModule } from '@/modules/tags/tags.module';
 import { UsersModule } from '@/modules/users/users.module';
-import { PaginationModule } from './common/pagination/pagination.module';
-import { appConfig } from './config/app.config';
-import { databaseConfig } from './config/database.config';
-import { environmentValidationSchema } from './config/envinronment.validation';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { DataResponseInterceptor } from './common/interceptors/data-response.interceptor';
 import { ErrorsInterceptor } from './common/interceptors/errors.interceptor';
-import { FriendsModule } from './modules/friends/friends.module';
-import { ConversationsModule } from './modules/conversations/conversations.module';
-import { MessagesModule } from './modules/messages/messages.module';
-import { MediaModule } from './modules/media/media.module';
-import { NotificationModule } from './modules/notification/notification.module';
-import { PresenceModule } from './modules/presence/presence.module';
+import { appConfig } from './config/app.config';
+import { databaseConfig } from './config/database.config';
+import { environmentValidationSchema } from './config/envinronment.validation';
 import { UploadModule } from './modules/upload/upload.module';
-import { RealtimeModule } from './modules/realtime/realtime.module';
 const ENV = process.env.NODE_ENV; //if (ENV === 'development' || ENV === 'test') 'development' : 'production';
 
 @Module({
@@ -47,19 +36,8 @@ const ENV = process.env.NODE_ENV; //if (ENV === 'development' || ENV === 'test')
       }),
     }),
     UsersModule,
-    PostsModule,
     AuthModule,
-    TagsModule,
-    MetaOptionsModule,
-    PaginationModule,
-    FriendsModule,
-    ConversationsModule,
-    MessagesModule,
-    MediaModule,
-    NotificationModule,
-    PresenceModule,
     UploadModule,
-    RealtimeModule,
   ],
   providers: [
     {

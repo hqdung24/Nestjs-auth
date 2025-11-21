@@ -1,19 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
-  OneToMany,
 } from 'typeorm';
-import { Post } from '../posts/post.entity';
-import { FriendRequest } from '../friends/entities/friend_request.entity';
-import { Friendship } from '../friends/entities/friendship.entity';
-import { Message } from '../messages/entities/message.entity';
-import { ConversationParticipant } from '../conversations/entities/conversation_participant.entity';
-import { Conversation } from '../conversations/entities/conversation.entity';
-import { MessageRead } from '../messages/entities/message_read.entity';
 
 @Entity('users')
 export class User {
@@ -66,38 +58,4 @@ export class User {
   deletedAt?: Date;
 
   // Relations
-  @OneToMany(() => Post, (post) => post.author)
-  posts: Post[];
-
-  @OneToMany(() => FriendRequest, (friendRequest) => friendRequest.fromUser)
-  friendRequestsFrom: FriendRequest[];
-
-  @OneToMany(() => FriendRequest, (friendRequest) => friendRequest.toUser)
-  friendRequestsTo: FriendRequest[];
-
-  @OneToMany(() => Friendship, (friendship) => friendship.userA)
-  friendshipsA: Friendship[];
-
-  @OneToMany(() => Friendship, (friendship) => friendship.userB)
-  friendshipsB: Friendship[];
-
-  //users.id < messages.senderId
-  @OneToMany(() => Message, (message) => message.sender)
-  messages: Message[];
-
-  //Ref: users.id < conversation_participants.user_id
-  @OneToMany(
-    () => ConversationParticipant,
-    // Using string to avoid circular dependency
-    (participant) => participant.participant,
-  )
-  conversations: ConversationParticipant[];
-
-  //Ref: users.id < conversations.owner_id
-  @OneToMany(() => Conversation, (conversation) => conversation.owner)
-  ownedConversations: Conversation[];
-
-  //Ref: users.id < message_reads.user_id
-  @OneToMany(() => MessageRead, (messageRead) => messageRead.user)
-  messageReads: MessageRead[];
 }

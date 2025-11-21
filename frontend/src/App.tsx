@@ -1,17 +1,16 @@
-import { Routes, Route, BrowserRouter } from 'react-router';
+import { queryClient } from '@/lib/queryClient';
+import SessionSync from '@/routes/SessionSync';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { Toaster } from 'sonner';
+import AccountInfoPage from './pages/account/AccountInfoPage';
 import SignInPage from './pages/auth/SignInPage';
 import SignUpPage from './pages/auth/SignUpPage';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/home/HomePage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
-import { Toaster } from 'sonner';
-import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from '@/lib/queryClient';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import SessionSync from '@/routes/SessionSync';
-import FriendsPage from './pages/friend/FriendsPage';
-import AccountInfoPage from './pages/Account/AccountInfoPage';
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 function App() {
   return (
@@ -45,14 +44,6 @@ function App() {
                   <PublicRoute>
                     <SignUpPage />
                   </PublicRoute>
-                }
-              />
-              <Route
-                path="/friend"
-                element={
-                  <ProtectedRoute>
-                    <FriendsPage />
-                  </ProtectedRoute>
                 }
               />
               <Route

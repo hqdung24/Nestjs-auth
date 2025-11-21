@@ -2,7 +2,7 @@ services:
   dev_db:
     image: postgres:16
     environment:
-      - POSTGRES_DB=blauchat_db
+      - POSTGRES_DB=nestauth_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=supersecret
     ports:

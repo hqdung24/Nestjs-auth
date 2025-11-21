@@ -1,14 +1,10 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
-import { ClassSerializerInterceptor } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
 import cookieParser from 'cookie-parser';
-import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
-import { ConfigService } from '@nestjs/config';
-import { config } from 'aws-sdk';
 import { writeFileSync } from 'fs';
+import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT ?? 3000;
@@ -38,7 +34,7 @@ async function bootstrap() {
   //Swagger configuration
   const swaggerConfig = new DocumentBuilder()
     .setVersion('1.0')
-    .setTitle('BlauChat API Documentation')
+    .setTitle('Nest Auth API Documentation')
     .setDescription('The description of my application')
     .addServer('http://localhost:3600/api')
     .addCookieAuth('refreshToken')
@@ -58,16 +54,6 @@ async function bootstrap() {
       scheme: 'bearer',
     })
     .build();
-
-  //AWS SDK configuration
-  const configAws = app.get(ConfigService);
-  config.update({
-    credentials: {
-      accessKeyId: configAws.get('app.aws.accessKey')!,
-      secretAccessKey: configAws.get('app.aws.secretAccessKey')!,
-    },
-    region: configAws.get<string>('app.aws.region'),
-  });
 
   //Init Document
   const document = SwaggerModule.createDocument(app, swaggerConfig);

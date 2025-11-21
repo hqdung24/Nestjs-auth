@@ -80,11 +80,6 @@ export class UsersService {
 
   async findOneByGoogleId(googleId: string) {
     const user = await this.findOneUserProvider.findOneByGoogleId(googleId);
-    if (!user) {
-      throw new BadRequestException(
-        'User not found with the provided Google ID',
-      );
-    }
     return user;
   }
 
